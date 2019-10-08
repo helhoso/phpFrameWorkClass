@@ -33,7 +33,6 @@
 				."' onclick='selTable(this)'> ".$rsTables[$x]->getTableName() . "<br>" ) ;
 
 		}
-	    //select TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME from COLUMNS where TABLE_SCHEMA='u130683007_controle' and TABLE_NAME='localizacao' ;
 	    echo ("<p>
 	      <input type='button' length='50' value='Work' name='btnWork' onclick='ClassWork()'>
 	        Run generator class
