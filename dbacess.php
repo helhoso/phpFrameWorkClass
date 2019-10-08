@@ -5,8 +5,6 @@
 	$password  = $_GET['pass'];
 	$database  = $_GET['db'];
 
-	// echo( $hostIP."</br>".$user."</br>".$password."</br>".$database."</br>" ) ;
-
 	include_once('connection.php') ;
 	$NewCon = New Conection();
 	$NewCon->setHostNameIP($hostIP);
@@ -26,12 +24,10 @@
 		for($x=0; $x < $rowsTable; $x++)
 		{
 			echo( $x . ' - ') ;
-			// echo( $rsTables[$x]->getTableName() . '</br>') ;
 			echo( "<input type='checkbox' name='tb_".$rsTables[$x]->getTableName()
 				."' id='".$rsTables[$x]->getTableName()
 				."' value='". $rsTables[$x]->getTableName() 
 				."' onclick='selTable(this)'> ".$rsTables[$x]->getTableName() . "<br>" ) ;
-
 		}
 	    echo ("<p>
 	      <input type='button' length='50' value='Work' name='btnWork' onclick='ClassWork()'>

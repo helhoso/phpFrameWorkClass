@@ -7,10 +7,25 @@
       <script src="js/jquery.min.js"></script>
       <link href="css/padrao.css" rel="stylesheet">
   </head>
-
+		<?php
+			// How do you can try the generated class
+				/*
+				include("usuario_1570561908.php") ;
+				$newU = New Usuario();
+				$obj  = $newU->executeSQL_usuario("select * from usuario");
+				echo count($obj) ."</br>";
+				$obj2  = $newU->executeLike_usuario("NOME","ds");
+				echo count($obj2) ."</br></br></br>";
+				https://celke.com.br/artigo/tabela-de-cores-html-nome-hexadecimal-rgb
+				*/
+			/*
+			$Con=mysqli_connect('localhost', 'u130683007_cont', '123controle321');
+            $db_selected = mysqli_select_db( $Con , 'u130683007_controle' );
+			*/  
+		?>
 <body onload="toggleFullScreen()">
 
-  <!-- http://localhost/helhosoFW/ -->
+  <!-- http://localhost/helhoso FrameWork/ -->
   <div class='one'>
     Class Generator from MySQL DataBase Tables - Helio Barbosa - Brazil
   </div>
@@ -19,13 +34,13 @@
       <input type='text' id='ip' value='localhost'></input>
     </p>
     <p>User name 
-      <input type='text' id='user' ></input>
+      <input type='text' id='user' value=''></input>
     </p>
     <p>Database password
-      <input type='password' id='pass' ></input>
+      <input type='password' id='pass' value=''></input>
     </p>
     <p>Database name
-      <input type='text' id='db' ></input>
+      <input type='text' id='db' value=''></input>
     </p>
     <p>
       <input type="button" length="50" value="Acess" name="btnAcess" onclick="dbAcess()">

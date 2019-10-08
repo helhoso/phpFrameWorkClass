@@ -70,7 +70,7 @@
       }
 
       Function Conect(){
-      	//$this->conet = mysqli_connect($this->hostNameIP, $this->userName, $this->passWord, $this->dbName, 1306) ;
+
          $this->conet = mysqli_connect($this->hostNameIP, $this->userName, $this->passWord);
          if (!$this->conet){
             // return mysqli_error();
@@ -84,9 +84,7 @@
             // return mysqli_error();
             return -1 ;
          }
-
          return 0 ;
-
       }
 
       function listTables()
@@ -124,7 +122,6 @@
          mysqli_close( $this->conet ) ;
          return $listaObjeto ;
       }
-
 	}
 ?>
 
