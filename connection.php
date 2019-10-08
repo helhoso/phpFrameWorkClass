@@ -71,8 +71,6 @@
 
       Function Conect(){
       	//$this->conet = mysqli_connect($this->hostNameIP, $this->userName, $this->passWord, $this->dbName, 1306) ;
-         // $this->conet = mysqli_connect('185.201.11.142', 'u130683007_cont', '123controle321') ;
-
          $this->conet = mysqli_connect($this->hostNameIP, $this->userName, $this->passWord);
          if (!$this->conet){
             // return mysqli_error();
