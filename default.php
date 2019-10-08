@@ -10,7 +10,7 @@
 
 <body onload="toggleFullScreen()">
 
-  <!-- http://localhost/helhoso FrameWork/ -->
+  <!-- http://localhost/helhosoFW/ -->
   <div class='one'>
     Class Generator from MySQL DataBase Tables - Helio Barbosa - Brazil
   </div>
@@ -19,13 +19,13 @@
       <input type='text' id='ip' value='localhost'></input>
     </p>
     <p>User name 
-      <input type='text' id='user' value='u130683007_cont'></input>
+      <input type='text' id='user' ></input>
     </p>
     <p>Database password
-      <input type='password' id='pass' value='123controle321'></input>
+      <input type='password' id='pass' ></input>
     </p>
     <p>Database name
-      <input type='text' id='db' value='u130683007_controle'></input>
+      <input type='text' id='db' ></input>
     </p>
     <p>
       <input type="button" length="50" value="Acess" name="btnAcess" onclick="dbAcess()">
