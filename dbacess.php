@@ -1,9 +1,9 @@
 <?php
 
-	$hostIP    = $_GET['ip'];
+	$hostIP    = $_GET['ip']  ;
 	$user      = $_GET['user'];
 	$password  = $_GET['pass'];
-	$database  = $_GET['db'];
+	$database  = $_GET['db']  ;
 
 	include_once('connection.php') ;
 	$NewCon = New Conection();
@@ -30,11 +30,9 @@
 				."' onclick='selTable(this)'> ".$rsTables[$x]->getTableName() . "<br>" ) ;
 		}
 	    echo ("<p>
-	      <input type='button' length='50' value='Work' name='btnWork' onclick='ClassWork()'>
-	        Run generator class
+	      <input class='one' type='button' length='50' value='Work' name='btnWork' onclick='ClassWork()'>
 	      </input>
 	    </p>" );
 		echo( '</form>') ;
 	}
-
 ?>

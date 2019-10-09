@@ -4,6 +4,7 @@
   $user      = $_GET['user'];
   $password  = $_GET['pass'];
   $database  = $_GET['db'];
+  $folder    = $_GET['fold'];
 
 
   /* Make the back-end classes */
@@ -13,6 +14,7 @@
   $NewWork->setUserName($user);
   $NewWork->setPassWord($password);
   $NewWork->setDbName($database);
+  $NewWork->setFolder($folder);
 
   $x = -1;
   foreach($_GET as $key => $value){
@@ -31,6 +33,7 @@
   $NewFront->setUserName($user);
   $NewFront->setPassWord($password);
   $NewFront->setDbName($database);
+  $NewFront->setFolder($folder);
 
   $x = -1;
   foreach($_GET as $key => $value){

@@ -77,7 +77,6 @@
             return -1 ;
          } 
 
-         // $db_selected = mysqli_select_db( $this->conet , $this->dbName );
          $db_selected = mysqli_select_db( $this->conet , 'information_schema' );
        
          if (!$db_selected) {
@@ -96,7 +95,6 @@
          $ret   =  mysqli_query( $this->conet , $mySql) ;
          while ($row = mysqli_fetch_array($ret)){
             $newRecord = new Conection() ;
-            // echo ( $row["TABLE_NAME"] ."</br>") ;
             $newRecord->setTableName( $row["TABLE_NAME"] ) ;  
             $id++ ;
             $listaObjeto[$id] = $newRecord ; 

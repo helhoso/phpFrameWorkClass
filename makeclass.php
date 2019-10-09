@@ -15,6 +15,7 @@
 		Private $passWord;
 		Private $dbName;
 		Private $select;
+		Private $folder;
 
 
       function __construct() { 
@@ -36,6 +37,9 @@
       }
       public function setDbName($_dbName){
          $this->dbName = $_dbName ;
+      }
+      public function setFolder($_folder){
+         $this->folder = $_folder ;
       }
       public function setTableName($_tableName){
          $this->tableName = $_tableName ;
@@ -77,7 +81,12 @@
       	$space3    = "&nbsp&nbsp&nbsp" ;
       	$space6    = $space3 . $space3 ;
 		// $this->outputFile = $this->tableName . Date("ymd") . time("hms") .".php" ;
-		$this->outputFile = $this->tableName ."_". time("hms") .".php" ;
+		// $this->outputFile = $this->folder ."/". $this->tableName ."_". time("hms") .".php" ;
+		if(file_exists($this->folder."/".$this->tableName.".php"))
+		{
+			unlink($this->folder."/".$this->tableName.".php") ;
+		}
+		$this->outputFile=$this->folder."/".$this->tableName.".php" ;
 		$fp        = fopen($this->outputFile,"a");
       	$class_name= $this->tableName ;
       	
@@ -152,8 +161,8 @@
         "          // error_reporting(0);" .chr(10). 
         "          date_default_timezone_set('America/Recife');" .chr(10).
         "          // server conection " .chr(10).
-        "          $"."Con=mysqli_connect('localhost', 'userName', 'userPassword');".chr(10).
-        "          $"."db_selected = mysqli_select_db( $"."Con , 'dataBaseName here' );" .chr(10). 
+        "          $"."Con=mysqli_connect('localhost', '".$this->userName."', '".$this->passWord."');".chr(10).
+        "          $"."db_selected = mysqli_select_db( $"."Con , '".$this->dbName."' );" .chr(10). 
         "          return $"."Con; ".chr(10).
         "      }" .chr(10) .chr(10) ;
 

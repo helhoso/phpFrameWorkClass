@@ -14,6 +14,7 @@
 		Private $passWord;
 		Private $dbName;
 		Private $select;
+    Private $folder;
 
 
     function __construct() { 
@@ -35,6 +36,9 @@
     }
     public function setDbName($_dbName){
        $this->dbName = $_dbName ;
+    }
+    public function setFolder($_folder){
+       $this->folder = $_folder ;
     }
     public function setTableName($_tableName){
        $this->tableName = $_tableName ;
@@ -72,7 +76,12 @@
   		"   youtube: https://www.youtube.com/user/1908HELIO" .chr(10). "-->" ;
     	$space3    = "&nbsp&nbsp&nbsp" ;
     	$space6    = $space3 . $space3 ;
-  		$this->outputFile = $this->tableName ."_Front_". time("hms") .".php" ;
+  		// $this->outputFile =  $this->folder ."/". $this->tableName ."_Front_". time("hms") .".php" ;
+      if(file_exists($this->folder."/".$this->tableName."_Front.php"))
+      {
+        unlink($this->folder."/".$this->tableName."_Front.php") ;
+      }
+      $this->outputFile= $this->folder."/".$this->tableName."_Front.php" ;
   		$fp        = fopen($this->outputFile,"a");
     	$class_name= $this->tableName ;
 	    $textClass = "<!DOCTYPE html>" . chr(10) ;
@@ -89,6 +98,18 @@
       $textClass  = $textClass ."      <div class='one'>".chr(10)
                                ."         ".$this->tableName . chr(10) 
                                ."      </div>".chr(10) ;
+      $textClass  = $textClass ."      <div class='two'>".chr(10); 
+      $textClass  = $textClass ."         <p>".chr(10);
+      $textClass  = $textClass ."         <input type='button' id='ins' value='Insert' onclick='myClick(this)'></input>".chr(10);
+      $textClass  = $textClass ."         </p>".chr(10);
+      $textClass  = $textClass ."         <p>".chr(10);
+      $textClass  = $textClass ."         <input type='button' id='apd' value='Update' onclick='myClick(this)'></input>".chr(10);
+      $textClass  = $textClass ."         </p>".chr(10);
+      $textClass  = $textClass ."         <p>".chr(10);
+      $textClass  = $textClass ."         <input type='button' id='del' value='Delete' onclick='myClick(this)'></input>".chr(10);
+      $textClass  = $textClass ."         </p>".chr(10);
+      $textClass  = $textClass ."      </div>".chr(10);
+
       $textClass  = $textClass ."      <div class='three' id='three'>".chr(10) ;
 
       include_once('connection.php');
@@ -108,6 +129,7 @@
       {
         $textClass = $textClass."   <table border=1>".chr(10) ;
         $textClass = $textClass."   <tr>".chr(10) ;
+        $textClass = $textClass."      <td>Chk</td>".chr(10) ;
         for($x=0; $x < $rowsCols; $x++)
         {
           $textClass = $textClass."      <td aligh='rigth'>".$rsTableCols[$x]->getTableNameCols()."</td>".chr(10);  
@@ -130,23 +152,51 @@
       $textClass  = $textClass ."         $"."New".$this->tableName. " = New ".$this->tableName."();".chr(10);
 
       $textClass  = $textClass ."         $"."rsRows = $"."Newusuario->executeSQL_usuario('".$select."');" . chr(10) ;
-
-
-      $textClass  = $textClass ."         while ($"."row = mysqli_fetch_array($"."rsRows))".chr(10);
-      $textClass  = $textClass ."         {".chr(10);
-      $textClass  = $textClass ."            echo(".chr(34)."<tr>".chr(34).");".chr(10);
+      $textClass  = $textClass."         $"."z=0;".chr(10);
+      $textClass  = $textClass."         while ($"."row = mysqli_fetch_array($"."rsRows))".chr(10);
+      $textClass  = $textClass."         {".chr(10);
+      $textClass  = $textClass."            $"."z = $"."z+1;";
+      $textClass  = $textClass."            echo(".chr(34)."<tr>".chr(34).");".chr(10);
+      $textClass  = $textClass."            echo(".chr(34)."<td aligh="."'left'><input type='radio' name='rd' id='$"."z' value='$"."z' onclick='myClick(this)'/>".
+        "</td>".chr(34).");".chr(10) ;
       for($x=0; $x < $rowsCols; $x++)
       {
-        $textClass  = $textClass ."          echo(".chr(34)."<td aligh="."'left'>".chr(34).
-        ".$"."row['".$rsTableCols[$x]->getTableNameCols(). "'].".chr(34)."</td>".chr(34).");".chr(10) ;
+        $textClass  = $textClass."            echo(".chr(34)."<td aligh="."'left'>".chr(34).
+        ".$"."row['".$rsTableCols[$x]->getTableNameCols(). "'].".chr(34)."</td>".chr(34).").chr(10);".chr(10) ;
       }
-      $textClass  = $textClass ."            echo(".chr(34)."</tr>".chr(34).");".chr(10);
-      $textClass  = $textClass ."         }".chr(10);
-      $textClass  = $textClass ."      ?".">".chr(10) ;
+      $textClass  = $textClass."            echo(".chr(34)."</tr>".chr(34).");".chr(10);
+      $textClass  = $textClass."         }".chr(10);
+      $textClass  = $textClass."      ?".">".chr(10) ;
       $textClass  = $textClass."   <table>".chr(10) ;
 
       $textClass  = $textClass . "     </div>".chr(10) ;
       $textClass  = $textClass . "   </body>" .chr(10) ;
+
+      $textClass  = $textClass . "<script type='text/javascript'>" .chr(10) ;
+      $textClass  = $textClass . "   function myClick(myVal)".chr(10);
+      $textClass  = $textClass . "   {".chr(10);
+      $textClass  = $textClass . "      $"."zz = myVal.value;".chr(10);
+      $textClass  = $textClass . "      switch($"."zz)".chr(10); 
+      $textClass  = $textClass . "      {".chr(10); 
+      $textClass  = $textClass . "         // Insert here".chr(10); 
+      $textClass  = $textClass . "         case 'Insert':".chr(10);
+      $textClass  = $textClass . "            alert('Insert here');".chr(10); 
+      $textClass  = $textClass . "            break;".chr(10); 
+      $textClass  = $textClass . "         case 'Update':".chr(10);
+      $textClass  = $textClass . "            // Update here".chr(10); 
+      $textClass  = $textClass . "            alert('Update here');".chr(10); 
+      $textClass  = $textClass . "            break;".chr(10); 
+      $textClass  = $textClass . "         case 'Delete':".chr(10);
+      $textClass  = $textClass . "            // Delete here".chr(10); 
+      $textClass  = $textClass . "            alert('Delete here');".chr(10); 
+      $textClass  = $textClass . "            break;".chr(10); 
+      $textClass  = $textClass . "         default:".chr(10);
+      $textClass  = $textClass . "            alert($"."zz);".chr(10);
+      $textClass  = $textClass . "            break;".chr(10); 
+      $textClass  = $textClass . "      }".chr(10); 
+      $textClass  = $textClass . "   }".chr(10); 
+      $textClass  = $textClass . "</script>" .chr(10) ;
+
       $textClass  = $textClass . "</html>"    .chr(10) ;
 
       fwrite( $fp,$textClass.chr(10).chr(13) ) ;
@@ -154,6 +204,7 @@
     }
   }
 ?>
+
 <!-- 
 http://localhost/helhosoFW/ 
 -->
