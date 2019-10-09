@@ -102,7 +102,6 @@
 		$rowsCols = count($rsTableCols);
 		if($rowsCols>0)
 		{
-			// $textClass  = $textClass . " [" . $rowsCols ."]" .chr(10) ;
     		/* proprerties */
 			for($x=0; $x < $rowsCols; $x++)
 			{
@@ -123,6 +122,13 @@
         		.chr(10). "         " . "$" ."this->" .$rsTableCols[$x]->getTableNameCols() . " = $" ."_" .$rsTableCols[$x]->getTableNameCols() . " ;" 
         		. "; " . chr(10) . "      }" 
         		. chr(10) ;
+
+        		$textClass  = $textClass . 
+        		         "      function get" .$rsTableCols[$x]->getTableNameCols()."()" 
+        		.chr(10)."      {" 
+        		.chr(10)."         return " . "$" ."this->" .$rsTableCols[$x]->getTableNameCols()
+        		.";". chr(10) 
+        		.        "      }".chr(10);
 			}
 		}
 
@@ -259,34 +265,20 @@
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         // execute SQL statement
         $textClass  = $textClass ."      function executeSQL_" .$class_name."($" . "_sql)".chr(10)                     ."      {".chr(10);
-        $textClass  = $textClass ."         $" . "listaObjeto = Array();" . chr(10) ;
         $textClass  = $textClass ."         if($". "_sql==null)" .chr(10) 
                                  ."         {" . chr(10) ;
-        $textClass  = $textClass ."             return $". "listaObjeto;".chr(10) ;
+        $textClass  = $textClass ."             return null;".chr(10) ;
         $textClass  = $textClass ."         }".chr(10);
-        $textClass  = $textClass ."         $"."id= -1;".chr(10) ;
 		$textClass  = $textClass ."         $"."myCon = ".$class_name."::dataBaseAccess();". chr(10)  ;
         $textClass  = $textClass ."         $"."ret = mysqli_query($"."myCon , $" . "_sql);".chr(10);
         $textClass  = $textClass ."         $"."numRows= mysqli_num_rows($" . "ret); ".chr(10);
         $textClass  = $textClass ."         if($"."numRows>0)".chr(10)
                                  ."         {".chr(10);
         $textClass  = $textClass ."             $"."records_found=$". "numRows;".chr(10);
-        $textClass  = $textClass ."             while ($". "row = mysqli_fetch_array($". "ret))"
-                        .chr(10) ."             {".chr(10);
-        $textClass  = $textClass ."                 $". "new". $class_name . " = new ".$class_name ."();".chr(10);
-
-		for($x=1 ; $x <= sizeof($rsTableCols)-1 ; $x++)
-		{
-        	$textClass  = $textClass ."                 $"."new".$class_name."->set".$rsTableCols[$x]->getTableNameCols()."($"."row['".$rsTableCols[$x]->getTableNameCols()."']);".chr(10);
-		}
-        $textClass  = $textClass ."                 $". "id += $". "id;" .chr(10) ;
-        $textClass  = $textClass ."                 $". "listaObjeto[$" . "id] = $". "new" . $class_name . ";" .chr(10) ;
-        $textClass  = $textClass ."             }" .chr(10) ;
+        $textClass  = $textClass ."             return $" . "ret;" .chr(10) ;
         $textClass  = $textClass ."         } " .chr(10) ;
-        $textClass  = $textClass ."         mysqli_close( $" . "myCon );" .chr(10) ;
-        $textClass  = $textClass ."         return $" . "listaObjeto;" .chr(10) ;
+        $textClass  = $textClass ."         return null;" .chr(10) ;
         $textClass  = $textClass ."      } // sql statement " .chr(10).chr(10) ;
-
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         // execute SQL Like statement
