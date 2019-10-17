@@ -1,7 +1,7 @@
 <?php
-
 	/**
-	 * 
+   * CRUD
+	 * Create, Read, Update and Delete
 	 */
 	class makeFrontEnd
 	{
@@ -127,6 +127,13 @@
       $rowsCols = count($rsTableCols);
       if($rowsCols>0)
       {
+
+/*
+JOGA ISSO EM UMA CHAMADA JSON
+NO INICIO DO SCRIPT
+TODA VEZ Q TIVER UAM ATUALIZAÇÃO FAZ UMA CHAMADA
+$PDO->query();
+*/
         $textClass = $textClass."   <table border=1>".chr(10) ;
         $textClass = $textClass."   <tr>".chr(10) ;
         $textClass = $textClass."      <td>Chk</td>".chr(10) ;
@@ -151,14 +158,19 @@
       $textClass  = $textClass ."         include('".$this->tableName.".php');".chr(10) ;
       $textClass  = $textClass ."         $"."New".$this->tableName. " = New ".$this->tableName."();".chr(10);
 
-      $textClass  = $textClass ."         $"."rsRows = $"."Newusuario->executeSQL_usuario('".$select."');" . chr(10) ;
+      $textClass  = $textClass ."         $"."rsRows = $"."New".$class_name."->executeSQL_".$class_name ."('".$select."');" . chr(10) ;
       $textClass  = $textClass."         $"."z=0;".chr(10);
       $textClass  = $textClass."         while ($"."row = mysqli_fetch_array($"."rsRows))".chr(10);
       $textClass  = $textClass."         {".chr(10);
-      $textClass  = $textClass."            $"."z = $"."z+1;";
+      $textClass  = $textClass."            $"."z = $"."z+1;".chr(10);
       $textClass  = $textClass."            echo(".chr(34)."<tr>".chr(34).");".chr(10);
-      $textClass  = $textClass."            echo(".chr(34)."<td aligh="."'left'><input type='radio' name='rd' id='$"."z' value='$"."z' onclick='myClick(this)'/>".
+
+      // supose that col zero to be IndexKey of table
+      $textClass  = $textClass."            echo(".chr(34)."<td aligh="."'left'><input type='radio' name='rd' id='$"."z' value='".chr(34).
+        ".$"."row['".$rsTableCols[0]->getTableNameCols(). "'].".chr(34)."' onclick='myClick(this)'/>".
         "</td>".chr(34).");".chr(10) ;
+      // supose that col zero to be IndexKey of table
+
       for($x=0; $x < $rowsCols; $x++)
       {
         $textClass  = $textClass."            echo(".chr(34)."<td aligh="."'left'>".chr(34).
@@ -170,41 +182,196 @@
       $textClass  = $textClass."   <table>".chr(10) ;
 
       $textClass  = $textClass . "     </div>".chr(10) ;
+      $textClass  = $textClass . "     <div class='four' id='four'></div>
+" .chr(10) ;
       $textClass  = $textClass . "   </body>" .chr(10) ;
 
       $textClass  = $textClass . "<script type='text/javascript'>" .chr(10) ;
+      $textClass  = $textClass . "   var NoRec = 0;".chr(10);
+      $textClass  = $textClass . "   var flag  = '';".chr(10);
       $textClass  = $textClass . "   function myClick(myVal)".chr(10);
       $textClass  = $textClass . "   {".chr(10);
-      $textClass  = $textClass . "      $"."zz = myVal.value;".chr(10);
-      $textClass  = $textClass . "      switch($"."zz)".chr(10); 
+      $textClass  = $textClass . "      var zz = myVal.value;".chr(10);
+      $textClass  = $textClass . "      switch(zz)".chr(10); 
       $textClass  = $textClass . "      {".chr(10); 
-      $textClass  = $textClass . "         // Insert here".chr(10); 
       $textClass  = $textClass . "         case 'Insert':".chr(10);
-      $textClass  = $textClass . "            alert('Insert here');".chr(10); 
+      $textClass  = $textClass . "            // Insert here ".chr(10); 
+      $textClass  = $textClass . "            zz=0;".chr(10); 
+      $textClass  = $textClass . "            NoRec = 0;".chr(10); 
+      $textClass  = $textClass . "            flag  = 'Ins';".chr(10); 
+      $textClass  = $textClass . "            url = '".$class_name."_i.php?rec=' + NoRec + '&f=Ins';".chr(10);
+      $textClass  = $textClass . "            $.get(url, function(resposta){".chr(10);
+      $textClass  = $textClass . "            ".
+      "document.getElementById('four').innerHTML=resposta ;".chr(10);
+      $textClass  = $textClass . "            },'html');".chr(10);
+
       $textClass  = $textClass . "            break;".chr(10); 
       $textClass  = $textClass . "         case 'Update':".chr(10);
       $textClass  = $textClass . "            // Update here".chr(10); 
-      $textClass  = $textClass . "            alert('Update here');".chr(10); 
+      $textClass  = $textClass . "            flag  = 'Upd';".chr(10); 
+      $textClass  = $textClass . "            url = '".$class_name."_i.php?rec=' + NoRec + '&f=Upd';".chr(10);
+      $textClass  = $textClass . "            $.get(url, function(resposta){".chr(10);
+      $textClass  = $textClass . "            ".
+      "document.getElementById('four').innerHTML=resposta ;".chr(10);
+      $textClass  = $textClass . "            },'html');".chr(10);
       $textClass  = $textClass . "            break;".chr(10); 
+
       $textClass  = $textClass . "         case 'Delete':".chr(10);
       $textClass  = $textClass . "            // Delete here".chr(10); 
-      $textClass  = $textClass . "            alert('Delete here');".chr(10); 
+      $textClass  = $textClass . "            flag  = 'Del';".chr(10); 
+      $textClass  = $textClass . "            url = '".$class_name."_i.php?rec=' + NoRec + '&f=Del';".chr(10);
+      $textClass  = $textClass . "            $.get(url, function(resposta){".chr(10);
+      $textClass  = $textClass . "            ".
+      "document.getElementById('four').innerHTML=resposta ;".chr(10);
+      $textClass  = $textClass . "            },'html');".chr(10);
       $textClass  = $textClass . "            break;".chr(10); 
+
       $textClass  = $textClass . "         default:".chr(10);
-      $textClass  = $textClass . "            alert($"."zz);".chr(10);
+      $textClass  = $textClass . "            NoRec = zz;".chr(10);
       $textClass  = $textClass . "            break;".chr(10); 
       $textClass  = $textClass . "      }".chr(10); 
       $textClass  = $textClass . "   }".chr(10); 
+      $textClass  = $textClass."   function my2Click(myVal)" .chr(10) ;
+      $textClass  = $textClass."   {" .chr(10) ;
+      $textClass  = $textClass."      //here you need persit your datas!" .chr(10) ;
+
+      $textClass  = $textClass."      params='';".chr(10);
+      for($x=0; $x < $rowsCols; $x++)
+      {
+        $textClass  = $textClass."      params=params + '&p".$x."='+document.getElementById('x".$x."').value;" .chr(10) ;
+      }
+
+      $textClass  = $textClass."      //alert(myVal.value)" .chr(10) ;
+      $textClass  = $textClass."      url = '".$class_name."_ii.php?rec=' + NoRec + '&f=' + flag + params;" .chr(10) ;
+      $textClass  = $textClass."      $.get(url, function(resposta){" ;
+      $textClass  = $textClass."         // alert(resposta);" .chr(10) ;
+      $textClass  = $textClass."         document.getElementById('four').innerHTML=resposta ;" .chr(10);
+      $textClass  = $textClass."      },'html');" . chr(10) ;
+      $textClass  = $textClass."   }" .chr(10) ;
       $textClass  = $textClass . "</script>" .chr(10) ;
 
       $textClass  = $textClass . "</html>"    .chr(10) ;
-
       fwrite( $fp,$textClass.chr(10).chr(13) ) ;
       fclose( $fp ) ;
+
+      /* makeing the interface */
+      if(file_exists($this->folder."/".$this->tableName."_i.php"))
+      {
+        unlink($this->folder."/".$this->tableName."_i.php") ;
+      }
+      $this->outputFile= $this->folder."/".$this->tableName."_i.php" ;
+      $fp        = fopen($this->outputFile,"a");
+      $class_name= $this->tableName ;
+      $textClass = chr(10) ;
+      $textClass = $textClass."<"."?php".chr(10) ;
+      $textClass = $textClass."   $"."recNo = $"."_GET['rec'];".chr(10);
+      $textClass = $textClass."   $"."flag  = $"."_GET['f'] ;".chr(10);
+      $textClass = $textClass."   include('".$class_name.".php');".chr(10);
+      $textClass = $textClass."   $"."new".$this->tableName."= New ".$this->tableName."();".chr(10);
+
+      $textClass = $textClass."   if($"."flag=='Ins')".chr(10);
+      $textClass = $textClass."   {".chr(10);
+      $textClass = $textClass."      $"."ret = $"."new". $this->tableName."->executeSQL_".$class_name."(".chr(34)."select ";
+      for($x=0; $x < $rowsCols-1; $x++)
+      {
+        $textClass = $textClass."'', ";
+      }
+      $textClass = $textClass."''".chr(34).");".chr(10);
+
+      $textClass = $textClass."   }else{".chr(10);
+
+      $textClass = $textClass."      $"."ret = $"."new". $this->tableName."->executeSQL_".$class_name."('select ";
+      for($x=0; $x < $rowsCols-1; $x++)
+      {
+        $textClass = $textClass.$rsTableCols[$x]->getTableNameCols().", ";
+      }
+      $textClass = $textClass.$rsTableCols[$rowsCols-1]->getTableNameCols()." from ". $this->tableName." where ".$rsTableCols[0]->getTableNameCols()."='.$"."recNo);".chr(10);
+      $textClass = $textClass."   }".chr(10);
+
+
+
+      $textClass  = $textClass."   while ($"."row = mysqli_fetch_array($"."ret))".chr(10);
+      $textClass  = $textClass."   {".chr(10);
+      $textClass  = $textClass."       ".chr(10);
+      for($x=0; $x <= $rowsCols-1; $x++)
+      {
+        $textClass = $textClass."      $"."new".$this->tableName."->set".$rsTableCols[$x]->getTableNameCols()."($"."row['".$rsTableCols[$x]->getTableNameCols()."']);".chr(10);
+
+        $textClass = $textClass."      echo(".chr(34).$rsTableCols[$x]->getTableNameCols().": <input type='text' id='x".$x."'value='".chr(34).".$"."row['".$rsTableCols[$x]->getTableNameCols()."'].".chr(34)."'></input></br>".chr(34).");".chr(10);
+
+      }
+      $textClass  = $textClass."   }".chr(10);
+
+      $textClass  = $textClass."?>".chr(10);
+      $textClass  = $textClass."<input type='button' id='b1' value='Upd' onclick='my2Click(this)'></input>".chr(10);
+      $textClass  = $textClass."<input type='button' id='b2' value='Cancel' onclick='my2Click(this)'></input>".chr(10);
+
+      $textClass = $textClass . "</html>" .chr(10) ;
+      fwrite( $fp,$textClass.chr(10).chr(13) ) ;
+      fclose( $fp ) ;
+
+      /* makeing the persistent class */
+      if(file_exists($this->folder."/".$this->tableName."_ii.php"))
+      {
+        unlink($this->folder."/".$this->tableName."_ii.php") ;
+      }
+      $this->outputFile= $this->folder."/".$this->tableName."_ii.php" ;
+      $fp        = fopen($this->outputFile,"a");
+
+      $this->outputFile= $this->folder."/".$this->tableName."_ii.php" ;
+      $fp        = fopen($this->outputFile,"a");
+      $class_name= $this->tableName ;
+      $textClass = "<!DOCTYPE html>" . chr(10) ;
+      $textClass = $textClass . $coments .chr(10) .
+      $textClass = $textClass."<"."?php".chr(10) ;
+      $textClass = $textClass."   $"."recNo = $"."_GET['rec'];".chr(10);
+      $textClass = $textClass."   $"."flag  = $"."_GET['f'] ;".chr(10);
+      for($xx=0; $xx<$x; $xx++)
+      {
+        $textClass = $textClass."   $"."p".$xx." = $"."_GET['p".$xx."'];".chr(10);
+      }
+
+      $textClass = $textClass."   include('".$class_name.".php');".chr(10);
+      $textClass = $textClass."   $"."new".$this->tableName."= New ".$this->tableName."();".chr(10);
+
+
+      for($xx=0; $xx<$x; $xx++)
+      {
+        $textClass = $textClass."   $"."new".$class_name."->set".$rsTableCols[$xx]->getTableNameCols()."($"."p".$xx.");".chr(10);
+
+      }
+
+
+      $textClass = $textClass."   if($"."flag=='Ins')".chr(10);
+      $textClass = $textClass."   {".chr(10);
+      $textClass = $textClass."      $"."newRecNo = $"."new".$class_name."->insert_".$class_name."();".chr(10);
+      $textClass = $textClass."      echo $"."newRecNo ;".chr(10);
+      $textClass = $textClass."   }".chr(10);
+
+      $textClass = $textClass."   if($"."flag=='Upd')".chr(10);
+      $textClass = $textClass."   {".chr(10);
+      $textClass = $textClass."      $"."new".$class_name."->update_".$class_name."();".chr(10);
+      $textClass = $textClass."   }".chr(10);
+
+      $textClass = $textClass."   if($"."flag=='Del')".chr(10);
+      $textClass = $textClass."   {".chr(10);
+      $textClass = $textClass."      $"."new".$class_name."->delete_".$class_name."();".chr(10);
+      $textClass = $textClass."   }".chr(10);
+
+      $textClass = $textClass."?".">".chr(10) ;
+      fwrite( $fp,$textClass.chr(10).chr(13) ) ;
+      fclose( $fp ) ;
+
     }
   }
 ?>
-
 <!-- 
+https://www.w3schools.com/php/php_mysql_connect.asp
+https://github.com/helhoso/PHPCodeGenerator  
 http://localhost/helhosoFW/ 
+http://localhost/dashboard/phpinfo.php
+forum https://github.com/bjverde/formDin/issues/192
+http://localhost/formDin/sysgen/
+https://github.com/bjverde/sysgen/wiki/Do-Zero-at%C3%A9-Rodar
+
 -->

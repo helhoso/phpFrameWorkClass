@@ -166,11 +166,11 @@
         "          return $"."Con; ".chr(10).
         "      }" .chr(10) .chr(10) ;
 
-        // Insert record on Table
-        $textClass = $textClass."      function insert_" .$class_name. "()".chr(10)."       {" .chr(10);
 
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        // Insert record on Table
+        $textClass = $textClass."      function insert_" .$class_name. "()".chr(10)."       {" .chr(10);
 		$select = $this->CreateSelect($rsTableCols, $class_name);	
 		$textClass  = $textClass . "           $"."myCon = ".$class_name."::dataBaseAccess();". chr(10)  ;
 		$textClass  = $textClass . "           ". $select .chr(10)  ;
@@ -181,21 +181,22 @@
         $textClass  = $textClass ."               return -1; // record found  ".chr(10) ;
         $textClass  = $textClass ."            }else{" .chr(10) ;
         $textClass  = $textClass ."               // insert new record " .chr(10) ;
-        $insert = "$" ."myInsert = 'insert into " . $class_name ." (";
-		for($x=1 ; $x <= sizeof($rsTableCols)-1 ; $x++)
+        $insert = "$" ."myInsert = ".chr(34)."insert into " . $class_name ." (";
+		for($x=1 ; $x <= sizeof($rsTableCols)-2 ; $x++)
 		{
 			$insert = $insert .$rsTableCols[$x]->getTableNameCols(). "," ;
 		}
 		$y = sizeof($rsTableCols)-1 ;
-		$insert = $insert .$rsTableCols[$y]->getTableNameCols(). ") values (" ;
+		$insert = $insert .$rsTableCols[$y]->getTableNameCols(). ") values ('" ;
 
 		for($x=1 ; $x <= sizeof($rsTableCols)-2 ; $x++)
 		{
-			$insert = $insert ."$". "this->" . $rsTableCols[$x]->getTableNameCols(). "," ;
+			$insert = $insert ."$". "this->" . $rsTableCols[$x]->getTableNameCols(). "','" ;
 		}
 		$y = sizeof($rsTableCols)-1 ;
-		$insert = $insert ."$" ."this->".$rsTableCols[$y]->getTableNameCols().")';" ;
+		$insert = $insert ."$" ."this->".$rsTableCols[$y]->getTableNameCols()."')".chr(34).";" ;
         $textClass  = $textClass ."            $insert" .chr(10) ;
+        $textClass  = $textClass ."            // echo  $myInsert ;" .chr(10) ;
         $textClass  = $textClass ."            $" . "ret = mysqli_query($" . "myCon , $". "myInsert);" .chr(10) ;
         $textClass  = $textClass ."            $" . "new_rec = mysqli_insert_id($" . "myCon);" .chr(10) ;
         $textClass  = $textClass ."            return $" . "new_rec; // if result 0 then error" .chr(10) ;
@@ -214,16 +215,16 @@
 		$textClass  = $textClass ."         $". "numRows = $"."ret->num_rows;".chr(10);
         $textClass  = $textClass ."         if($"."numRows>0)".chr(10)
                                  ."         {".chr(10);
-        $update = "$" ."myUpdae = 'update table " . $class_name  ;
+        $update = "$" ."myUpdate = ".chr(34)."update " . $class_name ." set " ;
 		for($x=1 ; $x <= sizeof($rsTableCols)-2 ; $x++)
 		{
-			$update = $update  ." set ".$rsTableCols[$x]->getTableNameCols(). "=$" . "this->". $rsTableCols[$x]->getTableNameCols() . " , " ;
+			$update = $update . $rsTableCols[$x]->getTableNameCols(). "='".chr(34).".$" . "this->". $rsTableCols[$x]->getTableNameCols() . ".".chr(34)."' , " ;
 		}
 		$y = sizeof($rsTableCols)-1 ;
-		$update = $update . $rsTableCols[$y]->getTableNameCols() . "= $" . "this->".$rsTableCols[$y]->getTableNameCols()."  from ".$class_name." where " ;
-		$update = $update . $rsTableCols[0]->getTableNameCols() . "=' . $" . "this->" .$rsTableCols[0]->getTableNameCols() ;
+		$update = $update . $rsTableCols[$y]->getTableNameCols() . "='".chr(34).".$" . "this->".$rsTableCols[$y]->getTableNameCols().".".chr(34)."' where " ;
+		$update = $update .$rsTableCols[0]->getTableNameCols(). "=".chr(34).".$" . "this->" .$rsTableCols[0]->getTableNameCols() ;
         $textClass  = $textClass ."            $update;"  .chr(10)  ;
-        $textClass  = $textClass ."            $"."ret_upd=mysqli_query( $". "myCon , $"."update);".chr(10);
+        $textClass  = $textClass ."            $"."ret_upd=mysqli_query( $". "myCon , $"."myUpdate);".chr(10);
         $textClass  = $textClass ."               if( $" ."ret_upd )" . chr(10) ;
         $textClass  = $textClass ."               {" . chr(10) ;
         $textClass  = $textClass ."                   mysqli_close( $". "myCon );"  .chr(10) ;

@@ -2,7 +2,6 @@
 <html>
   <head>
       <script src="js/jquery.min.js"></script>
-      <script src="js/jquery.min.js"></script>
       <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
       <title>Class Generator</title>
       <link href="css/padrao.css" rel="stylesheet">
