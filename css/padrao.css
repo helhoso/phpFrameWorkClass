@@ -1,3 +1,7 @@
+html, body, p , input , table {
+  font-family: Courier New;
+  font-size: 18px;
+}
 div.one {
   position: static;
   border: 2px solid #8B4513;
@@ -12,8 +16,29 @@ div.two {
 div.three {
   position: absolute;
   left: 212px;
-  width:  1140px;
+  width:  1280px;
   height: 600px;
   border: 2px solid #CD853F;
   overflow:auto;
 }
+div.four {
+  position: static;
+  left: 212px;
+  width:  1140px;
+  height: 200px;
+  border: 2px solid #CD853F;
+  overflow:auto;
+}
+.input-one{
+  border-radius: 15px;
+  background-color: #A0522D; /* Brown Colors */
+}
+.input-two{
+  border-radius: 15px;
+  background-color: #6B8E23; /* Brown Colors */
+}
+.input-three{
+  border-radius: 15px;
+  background-color: #B8860B; /* Brown Colors */
+}
+
