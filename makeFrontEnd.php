@@ -187,17 +187,32 @@ $PDO->query();
       $textClass  = $textClass . "   </body>" .chr(10) ;
 
       $textClass  = $textClass . "<script type='text/javascript'>" .chr(10) ;
+      $textClass  = $textClass . "   var rowPosition = 0 ;".chr(10);
       $textClass  = $textClass . "   var NoRec = 0;".chr(10);
       $textClass  = $textClass . "   var flag  = '';".chr(10);
       $textClass  = $textClass . "   function myClick(myVal)".chr(10);
       $textClass  = $textClass . "   {".chr(10);
       $textClass  = $textClass . "      var zz = myVal.value;".chr(10);
+
+      $textClass  = $textClass . "      if(zz!='Insert' && zz!='Update' && zz!='Delete' )".chr(10);
+      $textClass  = $textClass . "      {".chr(10);
+      $textClass  = $textClass . "         rowPosition = myVal.id ;  ".chr(10);
+      $textClass  = $textClass . "      }".chr(10);
+
       $textClass  = $textClass . "      switch(zz)".chr(10); 
       $textClass  = $textClass . "      {".chr(10); 
       $textClass  = $textClass . "         case 'Insert':".chr(10);
       $textClass  = $textClass . "            // Insert here ".chr(10); 
       $textClass  = $textClass . "            zz=0;".chr(10); 
       $textClass  = $textClass . "            NoRec = 0;".chr(10); 
+
+      $textClass  = $textClass . "            if(rowPosition!=0)".chr(10);
+      $textClass  = $textClass . "            {".chr(10);
+      $textClass  = $textClass . "               document.getElementById(rowPosition).checked = false ;".chr(10);
+      $textClass  = $textClass . "               document.getElementById('four').innerHTML='' ;".chr(10); 
+      $textClass  = $textClass . "               rowPosition = 0 ;".chr(10);
+      $textClass  = $textClass . "            }".chr(10);
+
       $textClass  = $textClass . "            flag  = 'Ins';".chr(10); 
       $textClass  = $textClass . "            url = '".$class_name."_i.php?rec=' + NoRec + '&f=Ins';".chr(10);
       $textClass  = $textClass . "            $.get(url, function(resposta){".chr(10);
@@ -208,6 +223,14 @@ $PDO->query();
       $textClass  = $textClass . "            break;".chr(10); 
       $textClass  = $textClass . "         case 'Update':".chr(10);
       $textClass  = $textClass . "            // Update here".chr(10); 
+
+      $textClass  = $textClass . "            if(NoRec == 0)".chr(10); 
+      $textClass  = $textClass . "            {".chr(10); 
+      $textClass  = $textClass . "               alert('Select the record again, please!');".chr(10); 
+      $textClass  = $textClass . "               document.getElementById('four').innerHTML='';".chr(10); 
+      $textClass  = $textClass . "               break;".chr(10); 
+      $textClass  = $textClass . "            }".chr(10); 
+
       $textClass  = $textClass . "            flag  = 'Upd';".chr(10); 
       $textClass  = $textClass . "            url = '".$class_name."_i.php?rec=' + NoRec + '&f=Upd';".chr(10);
       $textClass  = $textClass . "            $.get(url, function(resposta){".chr(10);
@@ -218,6 +241,14 @@ $PDO->query();
 
       $textClass  = $textClass . "         case 'Delete':".chr(10);
       $textClass  = $textClass . "            // Delete here".chr(10); 
+
+      $textClass  = $textClass . "            if(NoRec == 0)".chr(10); 
+      $textClass  = $textClass . "            {".chr(10); 
+      $textClass  = $textClass . "               alert('Select the record again, please!');".chr(10); 
+      $textClass  = $textClass . "               document.getElementById('four').innerHTML='';".chr(10); 
+      $textClass  = $textClass . "               break;".chr(10); 
+      $textClass  = $textClass . "            }".chr(10); 
+
       $textClass  = $textClass . "            flag  = 'Del';".chr(10); 
       $textClass  = $textClass . "            url = '".$class_name."_i.php?rec=' + NoRec + '&f=Del';".chr(10);
       $textClass  = $textClass . "            $.get(url, function(resposta){".chr(10);
@@ -235,18 +266,25 @@ $PDO->query();
       $textClass  = $textClass."   {" .chr(10) ;
       $textClass  = $textClass."      //here you need persit your datas!" .chr(10) ;
 
-      $textClass  = $textClass."      params='';".chr(10);
+      $textClass  = $textClass."      if(myVal.value=='Yes - Confirm')" .chr(10) ;
+      $textClass  = $textClass."      {" .chr(10) ;
+
+      $textClass  = $textClass."         params='';".chr(10);
       for($x=0; $x < $rowsCols; $x++)
       {
-        $textClass  = $textClass."      params=params + '&p".$x."='+document.getElementById('x".$x."').value;" .chr(10) ;
+        $textClass= $textClass."         params=params + '&p".$x."='+document.getElementById('x".$x."').value;" .chr(10) ;
       }
 
-      $textClass  = $textClass."      //alert(myVal.value)" .chr(10) ;
-      $textClass  = $textClass."      url = '".$class_name."_ii.php?rec=' + NoRec + '&f=' + flag + params;" .chr(10) ;
-      $textClass  = $textClass."      $.get(url, function(resposta){" ;
-      $textClass  = $textClass."         // alert(resposta);" .chr(10) ;
-      $textClass  = $textClass."         document.getElementById('four').innerHTML=resposta ;" .chr(10);
-      $textClass  = $textClass."      },'html');" . chr(10) ;
+      $textClass  = $textClass."         //alert(myVal.value)" .chr(10) ;
+      $textClass  = $textClass."         url = '".$class_name."_ii.php?rec=' + NoRec + '&f=' + flag + params;" .chr(10) ;
+      $textClass  = $textClass."         $.get(url, function(resposta){" ;
+      $textClass  = $textClass."            // alert(resposta);" .chr(10) ;
+      $textClass  = $textClass."            document.getElementById('four').innerHTML=resposta ;" .chr(10);
+      $textClass  = $textClass."         },'html');" . chr(10) ;
+
+      $textClass  = $textClass."      }else{" .chr(10) ;
+      $textClass  = $textClass."         document.getElementById('four').innerHTML='' ;" .chr(10) ;
+      $textClass  = $textClass."      }" .chr(10) ;
       $textClass  = $textClass."   }" .chr(10) ;
       $textClass  = $textClass . "</script>" .chr(10) ;
 
@@ -281,14 +319,22 @@ $PDO->query();
       $textClass = $textClass."   }else{".chr(10);
 
       $textClass = $textClass."      $"."ret = $"."new". $this->tableName."->executeSQL_".$class_name."('select ";
+      $HighEst_name = 0;
       for($x=0; $x < $rowsCols-1; $x++)
       {
         $textClass = $textClass.$rsTableCols[$x]->getTableNameCols().", ";
+        if( $HighEst_name < strlen($rsTableCols[$x]->getTableNameCols()) )
+        {
+           $HighEst_name = strlen($rsTableCols[$x]->getTableNameCols()) ;   
+        }
       }
       $textClass = $textClass.$rsTableCols[$rowsCols-1]->getTableNameCols()." from ". $this->tableName." where ".$rsTableCols[0]->getTableNameCols()."='.$"."recNo);".chr(10);
       $textClass = $textClass."   }".chr(10);
 
-
+      $textClass = $textClass."   $"."flag = str_replace('Ins','[ Insert a New Record ]',$"."flag);".chr(10);
+      $textClass = $textClass."   $"."flag = str_replace('Del','[ Delete Record ]',$"."flag);".chr(10);
+      $textClass = $textClass."   $"."flag = str_replace('Upd','[ Update Record ]',$"."flag);".chr(10);
+      $textClass = $textClass."   echo('<p>'.$"."flag.'</p>');".chr(10);
 
       $textClass  = $textClass."   while ($"."row = mysqli_fetch_array($"."ret))".chr(10);
       $textClass  = $textClass."   {".chr(10);
@@ -297,14 +343,15 @@ $PDO->query();
       {
         $textClass = $textClass."      $"."new".$this->tableName."->set".$rsTableCols[$x]->getTableNameCols()."($"."row['".$rsTableCols[$x]->getTableNameCols()."']);".chr(10);
 
-        $textClass = $textClass."      echo(".chr(34).$rsTableCols[$x]->getTableNameCols().": <input type='text' id='x".$x."'value='".chr(34).".$"."row['".$rsTableCols[$x]->getTableNameCols()."'].".chr(34)."'></input></br>".chr(34).");".chr(10);
+        $textClass = $textClass."      echo(".chr(34).$rsTableCols[$x]->getTableNameCols().str_repeat(".", $HighEst_name-strlen($rsTableCols[$x]->getTableNameCols()));
+        $textClass = $textClass.": <input type='text' id='x".$x."'value='".chr(34).".$"."row['".$rsTableCols[$x]->getTableNameCols()."'].".chr(34)."'></input></br>".chr(34).");".chr(10);
 
       }
       $textClass  = $textClass."   }".chr(10);
 
       $textClass  = $textClass."?>".chr(10);
-      $textClass  = $textClass."<input type='button' id='b1' value='Upd' onclick='my2Click(this)'></input>".chr(10);
-      $textClass  = $textClass."<input type='button' id='b2' value='Cancel' onclick='my2Click(this)'></input>".chr(10);
+      $textClass  = $textClass."<input class='input-yes' type='button' id='b1' value='Yes - Confirm' onclick='my2Click(this)'></input>".chr(10);
+      $textClass  = $textClass."<input class='input-no' type='button' id='b2' value='No - Cancel' onclick='my2Click(this)'></input>".chr(10);
 
       $textClass = $textClass . "</html>" .chr(10) ;
       fwrite( $fp,$textClass.chr(10).chr(13) ) ;

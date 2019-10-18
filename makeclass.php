@@ -196,7 +196,7 @@
 		$y = sizeof($rsTableCols)-1 ;
 		$insert = $insert ."$" ."this->".$rsTableCols[$y]->getTableNameCols()."')".chr(34).";" ;
         $textClass  = $textClass ."            $insert" .chr(10) ;
-        $textClass  = $textClass ."            // echo  $myInsert ;" .chr(10) ;
+        $textClass  = $textClass ."            // echo  $"."myInsert ;" .chr(10) ;
         $textClass  = $textClass ."            $" . "ret = mysqli_query($" . "myCon , $". "myInsert);" .chr(10) ;
         $textClass  = $textClass ."            $" . "new_rec = mysqli_insert_id($" . "myCon);" .chr(10) ;
         $textClass  = $textClass ."            return $" . "new_rec; // if result 0 then error" .chr(10) ;
