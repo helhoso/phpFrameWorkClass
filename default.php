@@ -44,7 +44,7 @@
       </input>
     </p> -->
       <p>
-        <button class="one" onclick="dbAcess()">Get Database</button>
+        <button class="input-one" onclick="dbAcess()">Get Database</button>
       </p>
   </div>
   <div class='three' id='three'>
@@ -52,6 +52,10 @@
       Here the code will be generated
     -->
   </div>
+  <!--
+  <div class='four' id='four'>
+  </div>
+  -->
 
   <!--
     <input type="button" value="clique para alternar" onclick="toggleFullScreen()">
@@ -106,6 +110,7 @@
   $listAll = '' ;
   function selTable($x)
   {
+    //alert($x.value);
     /* creat a list with table names */
     if( $x.checked==true )
     {
@@ -129,6 +134,8 @@
     $.get(url, function(resposta){
         document.getElementById("three").innerHTML = resposta ;
     },"html");
+    // document.getElementById("three").style.display = "none";
+    // document.getElementById("three").style.display = "block";
   }
 
 </script>

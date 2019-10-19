@@ -21,6 +21,11 @@
 	{
 		echo( "<form id='makeclass_before.php'>") ;
 		echo("<p>Select table(s) that you want to make class</br>") ;
+
+		/* try to implement select all */
+		//echo( '! - ') ;
+		//echo( "<input type='checkbox' name='all_' id='all_' value='all_' onclick='selTable(this)'> Select All </input><br>" ) ;
+
 		for($x=0; $x < $rowsTable; $x++)
 		{
 			echo( $x . ' - ') ;
@@ -30,7 +35,7 @@
 				."' onclick='selTable(this)'> ".$rsTables[$x]->getTableName() . "<br>" ) ;
 		}
 	    echo ("<p>
-	      <input class='one' type='button' length='50' value='Work' name='btnWork' onclick='ClassWork()'>
+	      <input class='input-one' type='button' length='50' value='Work' name='btnWork' onclick='ClassWork()'>
 	      </input>
 	    </p>" );
 		echo( '</form>') ;

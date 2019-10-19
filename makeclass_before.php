@@ -15,8 +15,6 @@
   $NewWork->setPassWord($password);
   $NewWork->setDbName($database);
   $NewWork->setFolder($folder);
-
-  $x = -1;
   foreach($_GET as $key => $value){
     if(substr($value,0,3)=='db_')
     {
@@ -35,7 +33,6 @@
   $NewFront->setDbName($database);
   $NewFront->setFolder($folder);
 
-  $x = -1;
   foreach($_GET as $key => $value){
     if(substr($value,0,3)=='db_')
     {
@@ -43,4 +40,11 @@
       $NewFront->makeDoIt();
     }
   }
+
+  /* Create a default.php with itens liked */
+  include_once("makeDefault.php");
+  $NewDefaullt = New makeDefault();
+  $NewDefaullt->setfolder($folder);
+  $NewDefaullt->makeClass($_GET);
+
 ?>
