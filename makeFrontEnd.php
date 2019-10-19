@@ -100,13 +100,13 @@
                                ."      </div>".chr(10) ;
       $textClass  = $textClass ."      <div class='two'>".chr(10); 
       $textClass  = $textClass ."         <p>".chr(10);
-      $textClass  = $textClass ."         <input type='button' id='ins' value='Insert' onclick='myClick(this)'></input>".chr(10);
+      $textClass  = $textClass ."         <input class='input-one' type='button' id='ins' value='Insert' onclick='myClick(this)'></input>".chr(10);
       $textClass  = $textClass ."         </p>".chr(10);
       $textClass  = $textClass ."         <p>".chr(10);
-      $textClass  = $textClass ."         <input type='button' id='apd' value='Update' onclick='myClick(this)'></input>".chr(10);
+      $textClass  = $textClass ."         <input class='input-one' type='button' id='apd' value='Update' onclick='myClick(this)'></input>".chr(10);
       $textClass  = $textClass ."         </p>".chr(10);
       $textClass  = $textClass ."         <p>".chr(10);
-      $textClass  = $textClass ."         <input type='button' id='del' value='Delete' onclick='myClick(this)'></input>".chr(10);
+      $textClass  = $textClass ."         <input class='input-one' type='button' id='del' value='Delete' onclick='myClick(this)'></input>".chr(10);
       $textClass  = $textClass ."         </p>".chr(10);
       $textClass  = $textClass ."      </div>".chr(10);
 
