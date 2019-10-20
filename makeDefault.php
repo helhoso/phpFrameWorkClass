@@ -96,6 +96,125 @@
 
 			$textoOut  = $textoOut ."   }".chr(10);
 			$textoOut  = $textoOut ."</script>".chr(10);
+
+
+
+
+
+
+
+      $textoOut  = $textoOut . "<script type='text/javascript'>" .chr(10) ;
+      $textoOut  = $textoOut . "   var rowPosition = 0 ;".chr(10);
+      $textoOut  = $textoOut . "   var NoRec = 0;".chr(10);
+      $textoOut  = $textoOut . "   var flag  = '';".chr(10);
+      $textoOut  = $textoOut . "   function myClick(myVal,fontName)".chr(10);
+      $textoOut  = $textoOut . "   {".chr(10);
+      $textoOut  = $textoOut . "      var zz = myVal.value;".chr(10);
+
+      $textoOut  = $textoOut . "      if(zz!='Insert' && zz!='Update' && zz!='Delete' )".chr(10);
+      $textoOut  = $textoOut . "      {".chr(10);
+      $textoOut  = $textoOut . "         rowPosition = myVal.id ;  ".chr(10);
+      $textoOut  = $textoOut . "      }".chr(10);
+
+      $textoOut  = $textoOut . "      switch(zz)".chr(10); 
+      $textoOut  = $textoOut . "      {".chr(10); 
+      $textoOut  = $textoOut . "         case 'Insert':".chr(10);
+      $textoOut  = $textoOut . "            // Insert here ".chr(10); 
+      $textoOut  = $textoOut . "            zz=0;".chr(10); 
+      $textoOut  = $textoOut . "            NoRec = 0;".chr(10); 
+
+      $textoOut  = $textoOut . "            if(rowPosition!=0)".chr(10);
+      $textoOut  = $textoOut . "            {".chr(10);
+      $textoOut  = $textoOut . "               document.getElementById(rowPosition).checked = false ;".chr(10);
+      $textoOut  = $textoOut . "               document.getElementById('four2').innerHTML='' ;".chr(10); 
+      $textoOut  = $textoOut . "               rowPosition = 0 ;".chr(10);
+      $textoOut  = $textoOut . "            }".chr(10);
+
+      $textoOut  = $textoOut . "            flag  = 'Ins';".chr(10); 
+      $textoOut  = $textoOut . "            url = fontName+'_i.php?rec=' + NoRec + '&f=Ins';".chr(10);
+      $textoOut  = $textoOut . "            $.get(url, function(resposta){".chr(10);
+      $textoOut  = $textoOut . "            ".
+      "document.getElementById('four2').innerHTML=resposta ;".chr(10);
+      $textoOut  = $textoOut . "            },'html');".chr(10);
+
+      $textoOut  = $textoOut . "            break;".chr(10); 
+      $textoOut  = $textoOut . "         case 'Update':".chr(10);
+      $textoOut  = $textoOut . "            // Update here".chr(10); 
+
+      $textoOut  = $textoOut . "            if(NoRec == 0)".chr(10); 
+      $textoOut  = $textoOut . "            {".chr(10); 
+      $textoOut  = $textoOut . "               alert('Select the record again, please!');".chr(10); 
+      $textoOut  = $textoOut . "               document.getElementById('four2').innerHTML='';".chr(10); 
+      $textoOut  = $textoOut . "               break;".chr(10); 
+      $textoOut  = $textoOut . "            }".chr(10); 
+
+      $textoOut  = $textoOut . "            flag  = 'Upd';".chr(10); 
+      $textoOut  = $textoOut . "            url = fontName+'_i.php?rec=' + NoRec + '&f=Upd';".chr(10);
+      $textoOut  = $textoOut . "            $.get(url, function(resposta){".chr(10);
+      $textoOut  = $textoOut . "            ".
+      "document.getElementById('four2').innerHTML=resposta ;".chr(10);
+      $textoOut  = $textoOut . "            },'html');".chr(10);
+      $textoOut  = $textoOut . "            break;".chr(10); 
+
+      $textoOut  = $textoOut . "         case 'Delete':".chr(10);
+      $textoOut  = $textoOut . "            // Delete here".chr(10); 
+
+      $textoOut  = $textoOut . "            if(NoRec == 0)".chr(10); 
+      $textoOut  = $textoOut . "            {".chr(10); 
+      $textoOut  = $textoOut . "               alert('Select the record again, please!');".chr(10); 
+      $textoOut  = $textoOut . "               document.getElementById('four2').innerHTML='';".chr(10); 
+      $textoOut  = $textoOut . "               break;".chr(10); 
+      $textoOut  = $textoOut . "            }".chr(10); 
+
+      $textoOut  = $textoOut . "            flag  = 'Del';".chr(10); 
+      $textoOut  = $textoOut . "            url = fontName+'_i.php?rec=' + NoRec + '&f=Del';".chr(10);
+      $textoOut  = $textoOut . "            $.get(url, function(resposta){".chr(10);
+      $textoOut  = $textoOut . "            ".
+      "document.getElementById('four2').innerHTML=resposta ;".chr(10);
+      $textoOut  = $textoOut . "            },'html');".chr(10);
+      $textoOut  = $textoOut . "            break;".chr(10); 
+
+      $textoOut  = $textoOut . "         default:".chr(10);
+      $textoOut  = $textoOut . "            NoRec = zz;".chr(10);
+      $textoOut  = $textoOut . "            break;".chr(10); 
+      $textoOut  = $textoOut . "      }".chr(10); 
+      $textoOut  = $textoOut . "   }".chr(10); 
+      $textoOut  = $textoOut."   function my2Click(myVal,fontName)" .chr(10) ;
+      $textoOut  = $textoOut."   {" .chr(10) ;
+      $textoOut  = $textoOut."      //here you need persit your datas!" .chr(10) ;
+
+      $textoOut  = $textoOut."      if(myVal.value=='Yes - Confirm')" .chr(10) ;
+      $textoOut  = $textoOut."      {" .chr(10) ;
+
+      $textoOut  = $textoOut."         params='';".chr(10);
+
+
+      $textoOut  = $textoOut."         try{".chr(10);
+      $textoOut  = $textoOut."         for( x=0 ; x<=200 ; x++ )".chr(10);
+      $textoOut  = $textoOut."         {".chr(10);
+      $textoOut  = $textoOut."            params= params + '&p' + x.toString() +'='+ ";$textoOut  = $textoOut."document.getElementById( 'x' + x.toString() ).value;".chr(10);
+      $textoOut  = $textoOut."         }".chr(10);
+      $textoOut  = $textoOut."         }catch{".chr(10);
+      $textoOut  = $textoOut."         }".chr(10);
+      $textoOut  = $textoOut."         //alert(params);".chr(10);
+
+      $textoOut  = $textoOut."         //alert(myVal.value)" .chr(10) ;
+      $textoOut  = $textoOut."         url = fontName+'_ii.php?rec=' + NoRec + '&f=' + flag + params;" .chr(10) ;
+      $textoOut  = $textoOut."         $.get(url, function(resposta){" ;
+      $textoOut  = $textoOut."            // alert(resposta);" .chr(10) ;
+      $textoOut  = $textoOut."            document.getElementById('four2').innerHTML=resposta ;" .chr(10);
+      $textoOut  = $textoOut."         },'html');" . chr(10) ;
+
+      $textoOut  = $textoOut."      }else{" .chr(10) ;
+      $textoOut  = $textoOut."         document.getElementById('four2').innerHTML='' ;" .chr(10) ;
+      $textoOut  = $textoOut."      }" .chr(10) ;
+      $textoOut  = $textoOut."   }" .chr(10) ;
+      $textoOut  = $textoOut . "</script>" .chr(10) ;
+
+
+
+
+
 			fwrite( $fileOut , $textoOut .chr(10) ) ;
 			fclose( $fileOut ) ;
 		}
