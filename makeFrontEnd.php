@@ -1,315 +1,185 @@
 <?php
-	/**
-   * CRUD
-	 * Create, Read, Update and Delete
-	 */
-	class makeFrontEnd
-	{
-		
-		private $outputFile ;
-		private $tableName ;
-		public  $coments ;
-		Private $hostNameIP;
-		Private $userName;
-		Private $passWord;
-		Private $dbName;
-		Private $select;
-    Private $folder;
-
+/**
+ * CRUD
+ * Create, Read, Update and Delete
+ */
+class makeFrontEnd
+{
+    private $outputFile;
+    private $tableName;
+    public $coments;
+    private $hostNameIP;
+    private $userName;
+    private $passWord;
+    private $dbName;
+    private $select;
+    private $folder;
 
     function __construct() { 
-    } 
+    }
+
     function __destruct() { 
-	    $this->outputFile = null; 
-		  $this->tableName  = null; 
+        $this->outputFile = null; 
+        $this->tableName  = null; 
     }
 
+    public function setHostNameIP($_hostIP) {
+        $this->hostNameIP = $_hostIP;
+    }
 
-    public function setHostNameIP($_hostIP){
-       $this->hostNameIP = $_hostIP ;
+    public function setUserName($_userName) {
+        $this->userName = $_userName;
     }
-    public function setUserName($_userName){
-       $this->userName = $_userName ;
+
+    public function setPassWord($_passWord) {
+        $this->passWord = $_passWord;
     }
-    public function setPassWord($_passWord){
-       $this->passWord = $_passWord ;
+
+    public function setDbName($_dbName) {
+        $this->dbName = $_dbName;
     }
-    public function setDbName($_dbName){
-       $this->dbName = $_dbName ;
+
+    public function setFolder($_folder) {
+        $this->folder = $_folder;
     }
-    public function setFolder($_folder){
-       $this->folder = $_folder ;
+
+    public function setTableName($_tableName) {
+        $this->tableName = $_tableName;
+        if (substr($this->tableName, 0, 3) == 'db_') {
+            $this->tableName = str_replace('db_', '', $this->tableName);
+        }
     }
-    public function setTableName($_tableName){
-       $this->tableName = $_tableName ;
-       if(substr($this->tableName,0,3)=='db_')
-       {
-          $this->tableName = str_replace('db_' , '' , $this->tableName ) ;
-       }
-    }
-    public function CreateSelect($_rsTable, $_class_name)
-    {
+
+    public function CreateSelect($_rsTable, $_class_name) {
         $rowsCols = count($_rsTable);
-        $select = "$" ."mySelect = 'select ";
-        for($x=0; $x < $rowsCols-1; $x++)
-        {
-          $select = $select .$_rsTable[$x]->getTableNameCols(). "," ;
+        $select = "$mySelect = 'SELECT ";
+
+        for ($x = 0; $x < $rowsCols - 1; $x++) {
+            $select .= $_rsTable[$x]->getTableNameCols() . ", ";
         }
-        $select = $select .$_rsTable[$rowsCols-1]->getTableNameCols()  ;
-        $y = sizeof($rowsCols)-1 ;
-        $select = $select .$rowsCols[ $y ] . " from ".$_class_name." where " ;
-        $select = $select .$_rsTable[0]->getTableNameCols(). " = ' . $" . "this->" .$_rsTable[0]->getTableNameCols().";" ;
-        return $select ;
+        $select .= $_rsTable[$rowsCols - 1]->getTableNameCols();
+        $select .= " FROM " . $_class_name . " WHERE ";
+        $select .= $_rsTable[0]->getTableNameCols() . " = ' . $this->" . $_rsTable[0]->getTableNameCols() . "';";
+
+        return $select;
     }
 
-    public function makeDoIt()
-    {
-  		$coments    = chr(10)."<!-- ".chr(10).
-  		"   Programm: FrameWork Class Generator" .chr(10). 
-  		"   Objective: Make all PHP classes Object Oriented from database conection" .chr(10).
-  		"              and after selected table or tables make ui class front-end too.".chr(10).
-  		"   Author: Hélio Barbosa" .chr(10). 
-  		"   Every classes will be generated in separated files." .chr(10). 
-  		"   GitHub: https:/". "/github.com/helhoso/phpFrameWorkClass.git" .chr(10).
-  		"   linkedin: https://br.linkedin.com/in/helio-barbosa-32718082" .chr(10).
-  		"   email: hflb01@gmail.com" .chr(10). 
-  		"   youtube: https://www.youtube.com/user/1908HELIO" .chr(10). "-->" ;
-    	$space3    = "&nbsp&nbsp&nbsp" ;
-    	$space6    = $space3 . $space3 ;
-  		// $this->outputFile =  $this->folder ."/". $this->tableName ."_Front_". time("hms") .".php" ;
-      if(file_exists($this->folder."/".$this->tableName."_Front.php"))
-      {
-        unlink($this->folder."/".$this->tableName."_Front.php") ;
-      }
-      $this->outputFile= $this->folder."/".$this->tableName."_Front.php" ;
-  		$fp        = fopen($this->outputFile,"a");
-    	$class_name= $this->tableName ;
-	    $textClass = "<!DOCTYPE html>" . chr(10) ;
-      $textClass = $textClass . $coments .chr(10) .
-      "<html>" . chr(10) .
-      "  <head>". chr(10) .
-      "      <script src='js/jquery.min.js'></script>" . chr(10) .
-      "      <meta content='text/html; charset=ISO-8859-1' http-equiv='content-type'>". chr(10) .
-      "      <title>".$this->tableName."</title>". chr(10) .
-      "      <script src='js/jquery.min.js'></script>". chr(10) .
-      "      <link href='css/padrao.css' rel='stylesheet'>". chr(10) .
-      "  </head>". chr(10) ;
-      $textClass  = $textClass ."   <body>"  .chr(10) ;
-      $textClass  = $textClass ."      <div class='one'>".chr(10)
-                               ."         ".$this->tableName . chr(10) 
-                               ."      </div>".chr(10) ;
-      $textClass  = $textClass ."      <div class='two'>".chr(10); 
-      $textClass  = $textClass ."         <p>".chr(10);
-      $textClass  = $textClass ."         <input class='input-one' type='button' id='ins' value='Insert' onclick='myClick(this,".chr(34).$this->tableName.chr(34).")'></input>".chr(10);
-      $textClass  = $textClass ."         </p>".chr(10);
-      $textClass  = $textClass ."         <p>".chr(10);
-      $textClass  = $textClass ."         <input class='input-one' type='button' id='apd' value='Update' onclick='myClick(this,".chr(34).$this->tableName.chr(34).")'></input>".chr(10);
-      $textClass  = $textClass ."         </p>".chr(10);
-      $textClass  = $textClass ."         <p>".chr(10);
-      $textClass  = $textClass ."         <input class='input-one' type='button' id='del' value='Delete' onclick='myClick(this,".chr(34).$this->tableName.chr(34).")'></input>".chr(10);
-      $textClass  = $textClass ."         </p>".chr(10);
-      $textClass  = $textClass ."      </div>".chr(10);
+    public function makeDoIt() {
+        $coments = chr(10) . "<!-- " . chr(10) .
+            "   Programm: FrameWork Class Generator" . chr(10) .
+            "   Objective: Make all PHP classes Object Oriented from database connection" . chr(10) .
+            "              and after selected table or tables make UI class front-end too." . chr(10) .
+            "   Author: Hélio Barbosa" . chr(10) .
+            "   Every class will be generated in separate files." . chr(10) .
+            "   GitHub: https://github.com/helioso/phpFrameWorkClass.git" . chr(10) .
+            "   LinkedIn: https://br.linkedin.com/in/helio-barbosa-32718082" . chr(10) .
+            "   Email: hflb01@gmail.com" . chr(10) .
+            "   YouTube: https://www.youtube.com/user/1908HELIO" . chr(10) . "-->";
 
-      $textClass  = $textClass ."      <div class='three' id='three'>".chr(10) ;
+        $space3 = "&nbsp&nbsp&nbsp";
+        $space6 = $space3 . $space3;
 
-      include_once('connection.php');
-      $NewCon = New Conection();
-      $NewCon->setHostNameIP($this->hostNameIP);
-      $NewCon->setUserName($this->userName);
-      $NewCon->setPassWord($this->passWord);
-      $NewCon->setDbName($this->dbName);
-      $NewCon->settableName($this->tableName);
-      $rsTableCols =  $NewCon->Conect();
-      if($rsTableCols==0)
-      {
-        $rsTableCols =  $NewCon->listTableCols();
-      }
-      $rowsCols = count($rsTableCols);
-      if($rowsCols>0)
-      {
-
-/*
-JOGA ISSO EM UMA CHAMADA JSON
-NO INICIO DO SCRIPT
-TODA VEZ Q TIVER UAM ATUALIZAÇÃO FAZ UMA CHAMADA
-$PDO->query();
-*/
-        $textClass = $textClass."   <table border=1>".chr(10) ;
-        $textClass = $textClass."   <tr>".chr(10) ;
-        $textClass = $textClass."      <td>Chk</td>".chr(10) ;
-        for($x=0; $x < $rowsCols; $x++)
-        {
-          $textClass = $textClass."      <td aligh='rigth'>".$rsTableCols[$x]->getTableNameCols()."</td>".chr(10);  
+        if (file_exists($this->folder . "/" . $this->tableName . "_Front.php")) {
+            unlink($this->folder . "/" . $this->tableName . "_Front.php");
         }
-        $textClass = $textClass."   </tr>".chr(10) ;
-      }
 
-      $rowsCols = count($rsTableCols);
-      $select = "select ";
-      for($x=0; $x < $rowsCols-1; $x++)
-      {
-        $select = $select .$rsTableCols[$x]->getTableNameCols(). "," ;
-      }
-      $select = $select .$rsTableCols[$rowsCols-1]->getTableNameCols()  ;
-      $y = sizeof($rowsCols)-1 ;
-      $select = $select .$rowsCols[$y]." from ".$class_name." where 1=1" ;
+        $this->outputFile = $this->folder . "/" . $this->tableName . "_Front.php";
+        $fp = fopen($this->outputFile, "a");
 
-      $textClass  = $textClass ."      <"."?php" . chr(10);
-      $textClass  = $textClass ."         include('".$this->tableName.".php');".chr(10) ;
-      $textClass  = $textClass ."         $"."New".$this->tableName. " = New ".$this->tableName."();".chr(10);
+        $class_name = $this->tableName;
+        $textClass = "<!DOCTYPE html>" . chr(10);
+        $textClass .= $coments . chr(10) .
+            "<html>" . chr(10) .
+            "  <head>" . chr(10) .
+            "      <script src='js/jquery.min.js'></script>" . chr(10) .
+            "      <meta content='text/html; charset=ISO-8859-1' http-equiv='content-type'>" . chr(10) .
+            "      <title>" . $this->tableName . "</title>" . chr(10) .
+            "      <script src='js/jquery.min.js'></script>" . chr(10) .
+            "      <link href='css/padrao.css' rel='stylesheet'>" . chr(10) .
+            "  </head>" . chr(10) .
+            "   <body>" . chr(10) .
+            "      <div class='one'>" . chr(10) .
+            "         " . $this->tableName . chr(10) .
+            "      </div>" . chr(10) .
+            "      <div class='two'>" . chr(10) .
+            "         <p>" . chr(10) .
+            "         <input class='input-one' type='button' id='ins' value='Insert' onclick='myClick(this," . chr(34) . $this->tableName . chr(34) . ")'></input>" . chr(10) .
+            "         </p>" . chr(10) .
+            "         <p>" . chr(10) .
+            "         <input class='input-one' type='button' id='apd' value='Update' onclick='myClick(this," . chr(34) . $this->tableName . chr(34) . ")'></input>" . chr(10) .
+            "         </p>" . chr(10) .
+            "         <p>" . chr(10) .
+            "         <input class='input-one' type='button' id='del' value='Delete' onclick='myClick(this," . chr(34) . $this->tableName . chr(34) . ")'></input>" . chr(10) .
+            "         </p>" . chr(10) .
+            "      </div>" . chr(10) .
+            "      <div class='three' id='three'>" . chr(10);
 
-      $textClass  = $textClass ."         $"."rsRows = $"."New".$class_name."->executeSQL_".$class_name ."('".$select."');" . chr(10) ;
-      $textClass  = $textClass."         $"."z=0;".chr(10);
-      $textClass  = $textClass."         while ($"."row = mysqli_fetch_array($"."rsRows))".chr(10);
-      $textClass  = $textClass."         {".chr(10);
-      $textClass  = $textClass."            $"."z = $"."z+1;".chr(10);
-      $textClass  = $textClass."            echo(".chr(34)."<tr>".chr(34).");".chr(10);
-
-      // supose that col zero to be IndexKey of table
-      $textClass  = $textClass."            echo(".chr(34)."<td aligh="."'left'><input type='radio' name='rd' id='$"."z' value='".chr(34).
-        ".$"."row['".$rsTableCols[0]->getTableNameCols(). "'].".chr(34)."' onclick='myClick(this)'/>".
-        "</td>".chr(34).");".chr(10) ;
-      // supose that col zero to be IndexKey of table
-
-      for($x=0; $x < $rowsCols; $x++)
-      {
-        $textClass  = $textClass."            echo(".chr(34)."<td aligh="."'left'>".chr(34).
-        ".$"."row['".$rsTableCols[$x]->getTableNameCols(). "'].".chr(34)."</td>".chr(34).").chr(10);".chr(10) ;
-      }
-      $textClass  = $textClass."            echo(".chr(34)."</tr>".chr(34).");".chr(10);
-      $textClass  = $textClass."         }".chr(10);
-      $textClass  = $textClass."      ?".">".chr(10) ;
-      $textClass  = $textClass."   <table>".chr(10) ;
-
-      $textClass  = $textClass . "     </div>".chr(10) ;
-      $textClass  = $textClass . "     <div class='four' id='four2'></div>
-" .chr(10) ;
-      $textClass  = $textClass . "   </body>" .chr(10) ;
-
-
-      $textClass  = $textClass . "</html>"    .chr(10) ;
-      fwrite( $fp,$textClass.chr(10).chr(13) ) ;
-      fclose( $fp ) ;
-
-      /* makeing the interface */
-      if(file_exists($this->folder."/".$this->tableName."_i.php"))
-      {
-        unlink($this->folder."/".$this->tableName."_i.php") ;
-      }
-      $this->outputFile= $this->folder."/".$this->tableName."_i.php" ;
-      $fp        = fopen($this->outputFile,"a");
-      $class_name= $this->tableName ;
-      $textClass = chr(10) ;
-      $textClass = $textClass."<"."?php".chr(10) ;
-      $textClass = $textClass."   $"."recNo = $"."_GET['rec'];".chr(10);
-      $textClass = $textClass."   $"."flag  = $"."_GET['f'] ;".chr(10);
-      $textClass = $textClass."   include('".$class_name.".php');".chr(10);
-      $textClass = $textClass."   $"."new".$this->tableName."= New ".$this->tableName."();".chr(10);
-
-      $textClass = $textClass."   if($"."flag=='Ins')".chr(10);
-      $textClass = $textClass."   {".chr(10);
-      $textClass = $textClass."      $"."ret = $"."new". $this->tableName."->executeSQL_".$class_name."(".chr(34)."select ";
-      for($x=0; $x < $rowsCols-1; $x++)
-      {
-        $textClass = $textClass."'', ";
-      }
-      $textClass = $textClass."''".chr(34).");".chr(10);
-
-      $textClass = $textClass."   }else{".chr(10);
-
-      $textClass = $textClass."      $"."ret = $"."new". $this->tableName."->executeSQL_".$class_name."('select ";
-      $HighEst_name = 0;
-      for($x=0; $x < $rowsCols-1; $x++)
-      {
-        $textClass = $textClass.$rsTableCols[$x]->getTableNameCols().", ";
-        if( $HighEst_name < strlen($rsTableCols[$x]->getTableNameCols()) )
-        {
-           $HighEst_name = strlen($rsTableCols[$x]->getTableNameCols()) ;   
+        include_once('connection.php');
+        $NewCon = new Conection();
+        $NewCon->setHostNameIP($this->hostNameIP);
+        $NewCon->setUserName($this->userName);
+        $NewCon->setPassWord($this->passWord);
+        $NewCon->setDbName($this->dbName);
+        $NewCon->setTableName($this->tableName);
+        $rsTableCols = $NewCon->Conect();
+        if ($rsTableCols == 0) {
+            $rsTableCols = $NewCon->listTableCols();
         }
-      }
-      $textClass = $textClass.$rsTableCols[$rowsCols-1]->getTableNameCols()." from ". $this->tableName." where ".$rsTableCols[0]->getTableNameCols()."='.$"."recNo);".chr(10);
-      $textClass = $textClass."   }".chr(10);
 
-      $textClass = $textClass."   $"."flag = str_replace('Ins','[ Insert a New Record ]',$"."flag);".chr(10);
-      $textClass = $textClass."   $"."flag = str_replace('Del','[ Delete Record ]',$"."flag);".chr(10);
-      $textClass = $textClass."   $"."flag = str_replace('Upd','[ Update Record ]',$"."flag);".chr(10);
-      $textClass = $textClass."   echo('<p>'.$"."flag.'</p>');".chr(10);
+        $rowsCols = count($rsTableCols);
+        if ($rowsCols > 0) {
+            $textClass .= "   <table border=1>" . chr(10);
+            $textClass .= "   <tr>" . chr(10);
+            $textClass .= "      <td>Chk</td>" . chr(10);
+            for ($x = 0; $x < $rowsCols; $x++) {
+                $textClass .= "      <td align='right'>" . $rsTableCols[$x]->getTableNameCols() . "</td>" . chr(10);
+            }
+            $textClass .= "   </tr>" . chr(10);
+        }
 
-      $textClass  = $textClass."   while ($"."row = mysqli_fetch_array($"."ret))".chr(10);
-      $textClass  = $textClass."   {".chr(10);
-      $textClass  = $textClass."       ".chr(10);
-      for($x=0; $x <= $rowsCols-1; $x++)
-      {
-        $textClass = $textClass."      $"."new".$this->tableName."->set".$rsTableCols[$x]->getTableNameCols()."($"."row['".$rsTableCols[$x]->getTableNameCols()."']);".chr(10);
+        $select = "SELECT ";
+        for ($x = 0; $x < $rowsCols - 1; $x++) {
+            $select .= $rsTableCols[$x]->getTableNameCols() . ", ";
+        }
+        $select .= $rsTableCols[$rowsCols - 1]->getTableNameCols();
+        $select .= " FROM " . $class_name . " WHERE 1=1";
 
-        $textClass = $textClass."      echo(".chr(34).$rsTableCols[$x]->getTableNameCols().str_repeat(".", $HighEst_name-strlen($rsTableCols[$x]->getTableNameCols()));
-        $textClass = $textClass.": <input type='text' id='x".$x."'value='".chr(34).".$"."row['".$rsTableCols[$x]->getTableNameCols()."'].".chr(34)."'></input></br>".chr(34).");".chr(10);
+        $textClass .= "      <?php" . chr(10);
+        $textClass .= "         include('" . $this->tableName . ".php');" . chr(10);
+        $textClass .= "         $" . "New" . $this->tableName . " = new " . $this->tableName . "();" . chr(10);
+        $textClass .= "         $" . "rsRows = $" . "New" . $class_name . "->executeSQL_" . $class_name . "('" . $select . "');" . chr(10);
+        $textClass .= "         $" . "z = 0;" . chr(10);
+        $textClass .= "         while ($" . "row = mysqli_fetch_array($" . "rsRows))" . chr(10);
+        $textClass .= "         {" . chr(10);
+        $textClass .= "            $" . "z = $" . "z + 1;" . chr(10);
+        $textClass .= "            echo(\"<tr>\");" . chr(10);
 
-      }
-      $textClass  = $textClass."   }".chr(10);
+        // Assume the first column is the IndexKey of the table
+        $textClass .= "            echo(\"<td align='left'><input type='radio' name='rd' id='$" . "z' value='\" . $" . "row['" . $rsTableCols[0]->getTableNameCols() . "'] . \"' onclick='myClick(this)'/></td>\");" . chr(10);
 
-      $textClass  = $textClass."?>".chr(10);
-      $textClass  = $textClass."<input class='input-yes' type='button' id='b1' value='Yes - Confirm' onclick='my2Click(this,".chr(34).$class_name.chr(34).")'></input>".chr(10);
-      $textClass  = $textClass."<input class='input-no' type='button' id='b2' value='No - Cancel' onclick='my2Click(this,".chr(34).$class_name.chr(34).")'></input>".chr(10);
+        for ($x = 0; $x < $rowsCols; $x++) {
+            $textClass .= "            echo(\"<td align='left'>\" . $" . "row['" . $rsTableCols[$x]->getTableNameCols() . "'] . \"</td>\");" . chr(10);
+        }
+        $textClass .= "            echo(\"</tr>\");" . chr(10);
+        $textClass .= "         }" . chr(10);
+        $textClass .= "      ?>" . chr(10);
+        $textClass .= "   </table>" . chr(10);
+        $textClass .= "   </div>" . chr(10);
+        $textClass .= "   <script type='text/javascript'>" . chr(10);
+        $textClass .= "      function myClick(el, table) {" . chr(10);
+        $textClass .= "         var value = el.value;" . chr(10);
+        $textClass .= "         $.post('doIt.php', {'tableName': table, 'ID': value, 'Action': el.id}, function(data) {" . chr(10);
+        $textClass .= "            $('#three').html(data);" . chr(10);
+        $textClass .= "         });" . chr(10);
+        $textClass .= "      }" . chr(10);
+        $textClass .= "   </script>" . chr(10);
+        $textClass .= "   </body>" . chr(10);
+        $textClass .= "</html>" . chr(10);
 
-      $textClass = $textClass . "</html>" .chr(10) ;
-      fwrite( $fp,$textClass.chr(10).chr(13) ) ;
-      fclose( $fp ) ;
-
-      /* makeing the persistent class */
-      if(file_exists($this->folder."/".$this->tableName."_ii.php"))
-      {
-        unlink($this->folder."/".$this->tableName."_ii.php") ;
-      }
-      $this->outputFile= $this->folder."/".$this->tableName."_ii.php" ;
-      $fp        = fopen($this->outputFile,"a");
-
-      $this->outputFile= $this->folder."/".$this->tableName."_ii.php" ;
-      $fp        = fopen($this->outputFile,"a");
-      $class_name= $this->tableName ;
-      $textClass = "<!DOCTYPE html>" . chr(10) ;
-      $textClass = $textClass . $coments .chr(10) .
-      $textClass = $textClass."<"."?php".chr(10) ;
-      $textClass = $textClass."   $"."recNo = $"."_GET['rec'];".chr(10);
-      $textClass = $textClass."   $"."flag  = $"."_GET['f'] ;".chr(10);
-      for($xx=0; $xx<$x; $xx++)
-      {
-        $textClass = $textClass."   $"."p".$xx." = $"."_GET['p".$xx."'];".chr(10);
-      }
-
-      $textClass = $textClass."   include('".$class_name.".php');".chr(10);
-      $textClass = $textClass."   $"."new".$this->tableName."= New ".$this->tableName."();".chr(10);
-
-
-      for($xx=0; $xx<$x; $xx++)
-      {
-        $textClass = $textClass."   $"."new".$class_name."->set".$rsTableCols[$xx]->getTableNameCols()."($"."p".$xx.");".chr(10);
-
-      }
-
-
-      $textClass = $textClass."   if($"."flag=='Ins')".chr(10);
-      $textClass = $textClass."   {".chr(10);
-      $textClass = $textClass."      $"."newRecNo = $"."new".$class_name."->insert_".$class_name."();".chr(10);
-      $textClass = $textClass."      echo $"."newRecNo ;".chr(10);
-      $textClass = $textClass."   }".chr(10);
-
-      $textClass = $textClass."   if($"."flag=='Upd')".chr(10);
-      $textClass = $textClass."   {".chr(10);
-      $textClass = $textClass."      $"."new".$class_name."->update_".$class_name."();".chr(10);
-      $textClass = $textClass."   }".chr(10);
-
-      $textClass = $textClass."   if($"."flag=='Del')".chr(10);
-      $textClass = $textClass."   {".chr(10);
-      $textClass = $textClass."      $"."new".$class_name."->delete_".$class_name."();".chr(10);
-      $textClass = $textClass."   }".chr(10);
-
-      $textClass = $textClass."?".">".chr(10) ;
-      fwrite( $fp,$textClass.chr(10).chr(13) ) ;
-      fclose( $fp ) ;
-
+        fwrite($fp, $textClass);
+        fclose($fp);
     }
-  }
+}
 ?>
 <!-- 
 https://www.w3schools.com/php/php_mysql_connect.asp
@@ -319,5 +189,4 @@ http://localhost/dashboard/phpinfo.php
 forum https://github.com/bjverde/formDin/issues/192
 http://localhost/formDin/sysgen/
 https://github.com/bjverde/sysgen/wiki/Do-Zero-at%C3%A9-Rodar
-
 -->
